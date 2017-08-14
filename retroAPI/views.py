@@ -10,8 +10,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #retor api imports
-from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer
-from models import Team, Retro
+from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer, RetroItemSerializer
+from models import Team, Retro, RetroItem
+
+class RetroItemsViewSet(viewsets.ModelViewSet):
+    queryset = RetroItem.objects.all()
+    serializer_class = RetroItemSerializer
 
 class RetroViewSet(viewsets.ModelViewSet):
     queryset = Retro.objects.all()

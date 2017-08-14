@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'teams', views.TeamViewSet)
 router.register(r'retros', views.RetroViewSet)
+router.register(r'retroItems', views.RetroItemsViewSet)
 
 
 urlpatterns = [

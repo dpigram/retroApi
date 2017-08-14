@@ -14,5 +14,6 @@ class Retro(models.Model):
 
 class RetroItem(models.Model):
     title = models.CharField(max_length=100)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
     def __str__(arg):
         return self.title
