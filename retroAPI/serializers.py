@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from retroAPI.models import Team
+from retroAPI.models import Team, Retro
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,4 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        field = ('id', 'name')
+        fields = ('name',)
+
+class RetroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Retro
+        field = ('title',)

@@ -21,6 +21,8 @@ from retroAPI import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'teams', views.TeamViewSet)
+router.register(r'retros', views.RetroViewSet)
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

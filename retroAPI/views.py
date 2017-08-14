@@ -10,9 +10,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #retor api imports
-from retroAPI.serializers import UserSerializer, TeamSerializer
-from models import Team
+from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer
+from models import Team, Retro
 
+class RetroViewSet(viewsets.ModelViewSet):
+    queryset = Retro.objects.all()
+    serializer_class = RetroSerializer
 
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all().order_by('-name')
