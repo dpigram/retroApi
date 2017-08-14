@@ -10,8 +10,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #retor api imports
-from retroAPI.serializers import UserSerializer
+from retroAPI.serializers import UserSerializer, TeamSerializer
+from models import Team
 
+
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all().order_by('-name')
+    serializer_class = TeamSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
