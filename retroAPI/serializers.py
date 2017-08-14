@@ -20,4 +20,4 @@ class RetroSerializer(serializers.ModelSerializer):
 class RetroItemSerializer(serializers.ModelSerializer):
     class Meta:
         model= RetroItem
-        fields = ('title',)
+        fields = ('title', 'retro')
