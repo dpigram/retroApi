@@ -26,6 +26,7 @@ router.register(r'retroItems', views.RetroItemsViewSet)
 
 
 urlpatterns = [
+    url(r'^retro/', include('retroAPI.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^user/auth', views.loginService),

@@ -29,6 +29,16 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+# website login view
+def webLogin(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        print("Successfully Logged in")
+    else:
+        print("User was not logged in")
+
 @api_view(['POST'])
 def loginService(request):
     print request.POST
