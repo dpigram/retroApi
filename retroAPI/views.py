@@ -43,6 +43,14 @@ class TeamView(generic.ListView):
         print("userId: " + str(self.request.session['userid']));
         return Team.objects.filter(owner=self.request.session['userid'])
 
+    def get_context_data(self, **kwargs):
+        context = super(TeamView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
+            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
+        print(self.kwargs)
+        return context;
+
 # login
 @api_view(['POST'])
 def webLogin(request):
