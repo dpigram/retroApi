@@ -2,7 +2,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.views import generic
 
 # rest framework imports
 from rest_framework import viewsets
@@ -29,15 +31,35 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
-# website login view
+# website views
+
+# teams
+class TeamView(generic.ListView):
+    template_name = 'retro/dashboard.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Return all teams """
+        print("userId: " + str(self.request.session['userid']));
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+# login
+@api_view(['POST'])
 def webLogin(request):
     username = request.POST['username']
     password = request.POST['password']
+
     user = authenticate(request, username=username, password=password)
     if user is not None:
         print("Successfully Logged in")
+        request.session['userid'] = user.id
+        print("Session modified: " + str(request.session.modified))
+        return HttpResponseRedirect(reverse('retro:dashboard'))
     else:
         print("User was not logged in")
+        return render(request, 'retro/login.html', {
+            'error_message': "Invalid Username and Password"
+        })
 
 @api_view(['POST'])
 def loginService(request):

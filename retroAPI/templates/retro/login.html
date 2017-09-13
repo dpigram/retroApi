@@ -1,4 +1,4 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -49,17 +49,29 @@
           <div class="loginForm top-buffer">
             <div class="row">
               <div class="col-md-10 col-md-offset-1">
-                <div class="form-group">
-                  <input type="text" name="username" class="form-control" placeholder="Enter Username">
+                <form action="{% url 'retro:login' %}" method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Enter Username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" name="submitBtn" value="Log In" class="btn btn-success" id="loginBtn">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="../ForgotPassword/index.html"class="freeText">Forgot Password?</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                  {{ error_message }}
                 </div>
-                <div class="form-group">
-                  <input type="password" name="password" class="form-control" placeholder="Enter Password">
-                </div>
-                <div class="form-group">
-                  <input type="submit" name="submitBtn" value="Log In" class="btn btn-success" id="loginBtn">
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <a href="../ForgotPassword/index.html"class="freeText">Forgot Password?</a>
-                </div>
+                {% endif %}
               </div>
             </div>
           </div>

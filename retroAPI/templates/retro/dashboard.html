@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../css/jquery-ui.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/master.css">
+    <style media="screen">
+      /* Hide for mobile, show later */
+      /*.sidebar {
+        display: none;
+      }*/
+      @media (min-width: 768px) {
+        .sidebar {
+          position: fixed;
+          top: 0px;
+          bottom: 0;
+          left: 0;
+          z-index: 1000;
+          display: block;
+          padding: 20px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          background-color: #f5f5f5;
+          border-right: 1px solid #cccccc;
+        }
+      }
+
+      /* Sidebar navigation */
+      .nav-sidebar {
+      margin-right: -21px; /* 20px padding + 1px border */
+      margin-bottom: 20px;
+      margin-left: -20px;
+      }
+      .nav-sidebar > li > a {
+      padding-right: 20px;
+      padding-left: 20px;
+      }
+      .nav-sidebar > .active > a,
+      .nav-sidebar > .active > a:hover,
+      .nav-sidebar > .active > a:focus {
+      color: #fff;
+      background-color: #428bca;
+      }
+    </style>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      getTeams();
+      setInterval(function(){
+        getTeams();
+      },1000);
+      function getTeams(){
+        $.ajax({
+          type: 'GET',
+          url: 'http://localhost:8888/retro/json/teams.json',
+          async: true,
+          beforeSend: function(data){
+            // console.log("getting teams");
+          },
+          success:function(data){
+            console.log(data);
+            data.sort(function(a,b){
+              if(a["order"]  <  b["order"]){
+                return -1;
+              }
+              if(a["order"]  >  b["order"]){
+                return 1;
+              }
+              return 0;
+            })
+            $(".teamList").html("")
+            $(".teamDescrptions").html("");
+            for (var i = 0; i < data.length; i++) {
+              $(".teamList").append("<li><a href=\"#\" id=\"" + data[i]["id"]+ "\">" + data[i]["name"]+"</a></li>")
+              $(".teamDescrptions").append("<div class=\"col-md-4\"><div class=\"well\"><h2>" + data[i]["name"]+"</h2><p>" + data[i]["discription"]+"</p><p><a href=\"../TeamDashboard\" role=\"button\" class=\"btn btn-link\" id=\""+ data[i]["id"]+"\">View Notes >></a></div></div>");
+            }
+          }
+        })
+      }
+    })
+    </script>
+    <title>Testing</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="#">Dashboard</a></li>
+          </ul>
+
+          <ul class="nav nav-sidebar teamList">
+
+          </ul>
+        </div>
+        <div class="col-md-10 col-md-offset-2">
+          <div class="row">
+            <div class="col-md-12">
+                <h1>All Teams</h1>
+                <hr>
+            </div>
+          </div>
+          <div class="row teamDescrptions">
+            {% if all_teams_list %}
+              {% for team in all_teams_list %}
+              <div class="col-md-4">
+                <div class="well">
+                  <h2>{{team.name}}</h2>
+                  <p>{{team.description}}</p>
+                  <p><a href="../TeamDashboard" role="button" class="btn btn-link">View Notes >></a>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+            <div class="col-md-12">
+              <div class="jumbotron">
+                <center><h2>There are no teams available</h2></cetner>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
