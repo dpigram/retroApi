@@ -1,7 +1,7 @@
 # django imports
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
@@ -35,7 +35,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 # teams
 class TeamView(generic.ListView):
-    template_name = 'retro/dashboard.html'
+    template_name = 'retro/teamDetails.html'
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
@@ -51,6 +51,38 @@ class TeamView(generic.ListView):
         print(self.kwargs)
         return context;
 
+class BaseView(generic.ListView):
+    template_name = 'retro/baseNavigation.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Return all teams """
+        print("userId: " + str(self.request.session['userid']));
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(BaseView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
+            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
+        return context
+
+class NewRetroView(generic.ListView):
+    template_name = 'retro/newRetro.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Return all teams """
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(NewRetroView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
+            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
+        return context
+
+
 # login
 @api_view(['POST'])
 def webLogin(request):
@@ -59,6 +91,7 @@ def webLogin(request):
 
     user = authenticate(request, username=username, password=password)
     if user is not None:
+        login(request, user)
         print("Successfully Logged in")
         request.session['userid'] = user.id
         print("Session modified: " + str(request.session.modified))
@@ -68,6 +101,11 @@ def webLogin(request):
         return render(request, 'retro/login.html', {
             'error_message': "Invalid Username and Password"
         })
+
+#logout
+def webLogout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('retro:loginScreen'))
 
 @api_view(['POST'])
 def loginService(request):

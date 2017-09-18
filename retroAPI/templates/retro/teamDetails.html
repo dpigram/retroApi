@@ -1,0 +1,57 @@
+{% extends 'retro/baseNavigation.html' %}
+{% block content %}
+{% if team_details %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{team_details.name}}</h4>
+        <p class="card-subtitle mb-2 text-muted">{{team_details.description}}</p>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-info">
+      <span class="fa fa-plus"></span>
+      New Retro
+    </a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    {% if team_retros %}
+    <h2>Retros</h2>
+    <table class="table table-responsive table-striped">
+      <tbody>
+        {% for retro in team_retros %}
+        <tr>
+          <th scope="row">{{retro.title}}</th>
+          <td align="right"><a href="#" class="btn btn-info">Review</a>&nbsp;<a href="#" class="btn btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <br>
+    <div class="alert alert-warning">
+
+        <center>No Retros Available</center>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <br><br>
+    <div class="alert alert-info">
+      <center>SELECT A TEAM</center>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+{ % endblock % }

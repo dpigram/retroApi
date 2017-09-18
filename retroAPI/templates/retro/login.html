@@ -32,12 +32,6 @@
         $("#loginBtn").click(function(){
           // show modal
           $("#myModal").modal("show");
-          $.get("http://localhost:8888/Retro/login/services/login.php", function(data, status){
-            $("#myModal").modal("hide");
-            if(status == "success"){
-              window.location = "../Teams" ;
-            }
-          });
         });
       });
     </script>
