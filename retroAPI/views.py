@@ -33,6 +33,19 @@ class UserViewSet(viewsets.ModelViewSet):
 
 # website views
 
+class ManageTeamView(generic.ListView):
+    template_name = 'retro/manageTeam.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Retrun all Teams """
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(ManageTeamView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
+        return context;
 # teams
 class TeamView(generic.ListView):
     template_name = 'retro/teamDetails.html'
@@ -82,6 +95,29 @@ class NewRetroView(generic.ListView):
             context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
         return context
 
+class NewTeamView(generic.ListView):
+    template_name = 'retro/newTeam.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Return all teams """
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+def addNewRetro(request):
+    team = Team.objects.get(pk=request.POST['teamId'])
+    newRetro = Retro(title=request.POST['title'], team=team)
+    newRetro.save()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
+
+def deleteTeam(request):
+    Team.objects.get(pk=request.POST['teamId']).delete()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
+
+def addNewTeam(request):
+    user = User.objects.get(pk=request.session['userid'])
+    newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user)
+    newTeam.save()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
 
 # login
 @api_view(['POST'])

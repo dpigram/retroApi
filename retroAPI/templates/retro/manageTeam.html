@@ -1,0 +1,22 @@
+{% extends "retro/baseNavigation.html" %}
+
+{% block pageTitle %}
+  {% if team_details %}
+    {{team_details.name}}
+  {% else %}
+      No Team Name Provided
+  {% endif %}
+{% endblock %}
+
+
+{% block pageDiscription %}
+  {% if team_details %}
+    <form action="{% url 'retro:deleteTeam' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="teamId" value="{{team_details.id}}">
+      <input type="submit" class="btn btn-danger" value="Delete Team"/>
+    </form>
+  {% endif %}
+{% endblock %}
+
+{ % endblock % }

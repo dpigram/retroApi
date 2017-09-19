@@ -1,17 +1,23 @@
 {% extends 'retro/baseNavigation.html' %}
+{% block pageTitle %}
+  {% if team_details %}
+    {{team_details.name}}
+  {% else %}
+      No Team Name Provided
+  {% endif %}
+{% endblock %}
+
+
+{% block pageDiscription %}
+  {% if team_details %}
+    {{team_details.description}}
+  {% else %}
+    No Description Provided
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 {% if team_details %}
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">{{team_details.name}}</h4>
-        <p class="card-subtitle mb-2 text-muted">{{team_details.description}}</p>
-      </div>
-    </div>
-    <hr>
-  </div>
-</div>
 <div class="row">
   <div class="col-md-12">
     <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-info">

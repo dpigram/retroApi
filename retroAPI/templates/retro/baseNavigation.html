@@ -61,7 +61,8 @@
           {% if all_teams_list %}
             <h3>Teams</h3><hr>
             {% for team in all_teams_list %}
-              <a href="{% url 'retro:teamDetails' team.id %}">{{ team.name }}</a></li>
+          </a><a href="{% url 'retro:teamDetails' team.id %}">{{ team.name }}</a>&nbsp;&nbsp;
+              <a href="{% url 'retro:ManageTeam' team.id %}"><span class="fa fa-gear"></span></li>
               <hr>
             {% endfor %}
           {% endif %}
@@ -71,10 +72,20 @@
           <a href="{% url 'retro:logout' %}" class="btn btn-info">Log Out</a>
         </div>
         <div class="col-md-10 col-md-offset-2">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">{% block pageTitle %} {% endblock %}</h4>
+                  <p class="card-subtitle mb-2 text-muted">{% block pageDiscription %} {% endblock %}</p>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
           {% block content %}
 
           {% endblock %}
-
         </div>
       </div>
     </div>

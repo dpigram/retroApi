@@ -1,3 +1,35 @@
 {% extends "retro/baseNavigation.html" %}
 
+{% block pageTitle %}
+  Create a New Team
+{% endblock %}
+
+
+{% block pageDiscription %}
+{% endblock %}
+
+{% block content %}
+  <form class="" action="{% url 'retro:addNewTeam' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-4">
+        <label for="teamName">Team Name</label>
+        <input type="text" name="teamName" class="form-control" placeholder="Enter Team Name"/>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="teamDescription">Description</label>
+        <textarea name="teamDescription" rows="8" cols="80" class="form-control" placeholder="(Optional)"></textarea>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-3">
+        <input type="submit" class="btn btn-info"/>
+      </div>
+    </div>
+  </form>
+{% endblock %}
 { % endblock % }
