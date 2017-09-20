@@ -86,13 +86,13 @@ class NewRetroView(generic.ListView):
 
     def get_queryset(self):
         """ Return all teams """
+        print(self.kwargs['pk'])
         return Team.objects.filter(owner=self.request.session['userid'])
 
     def get_context_data(self, **kwargs):
         context = super(NewRetroView, self).get_context_data(**kwargs)
         if bool(self.kwargs):
             context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
-            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
         return context
 
 class NewTeamView(generic.ListView):

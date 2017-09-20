@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^logout/$', views.webLogout, name='logout'),
     url(r'^addTeam/$', views.addNewTeam, name='addNewTeam'),
     url(r'^manageTeam/(?P<pk>[0-9]+)/$', views.ManageTeamView.as_view(), name='ManageTeam'),
-    url(r'^deleteTeam/$', views.deleteTeam, name='deleteTeam')
+    url(r'^deleteTeam/$', views.deleteTeam, name='deleteTeam'),
+    url(r'^addRetro/$', views.addNewRetro, name='addRetro')
 ]
