@@ -46,6 +46,21 @@ class ManageTeamView(generic.ListView):
         if bool(self.kwargs):
             context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
         return context;
+
+
+class NewRetroItemView(generic.ListView):
+    template_name = 'retro/newRetroItem.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(NewRetroItemView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['retro_details'] = Retro.objects.get(pk=self.kwargs['pk'])
+            return context
+
 # teams
 class TeamView(generic.ListView):
     template_name = 'retro/teamDetails.html'
@@ -86,7 +101,6 @@ class NewRetroView(generic.ListView):
 
     def get_queryset(self):
         """ Return all teams """
-        print(self.kwargs['pk'])
         return Team.objects.filter(owner=self.request.session['userid'])
 
     def get_context_data(self, **kwargs):
@@ -102,11 +116,47 @@ class NewTeamView(generic.ListView):
     def get_queryset(self):
         """ Return all teams """
         return Team.objects.filter(owner=self.request.session['userid'])
+    
+class DashboardDetilaView(generic.ListView):
+    template_name = 'retro/dashboard.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+class RetroDetailView(generic.ListView):
+    template_name = "retro/retroDetails.html"
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Return all teams """
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(RetroDetailView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['retro_details'] = Retro.objects.get(pk=self.kwargs['pk'])
+            context['retro_items'] = RetroItem.objects.filter(retro=self.kwargs['pk'])
+        return context
+
+def deleteRetroItem(request):
+    RetroItem.objects.get(pk=request.POST['retroItemId']).delete()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
+
+def addNewRetroItem(request):
+    retro = Retro.objects.get(pk=request.POST['retroId'])
+    item = RetroItem(title=request.POST['title'], retro=retro)
+    item.save()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
 
 def addNewRetro(request):
     team = Team.objects.get(pk=request.POST['teamId'])
     newRetro = Retro(title=request.POST['title'], team=team)
     newRetro.save()
+    return HttpResponseRedirect(reverse('retro:dashboard'))
+
+def deleteRetro(request):
+    Retro.objects.get(pk=request.POST['retroId']).delete()
     return HttpResponseRedirect(reverse('retro:dashboard'))
 
 def deleteTeam(request):

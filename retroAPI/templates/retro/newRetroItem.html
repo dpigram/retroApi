@@ -1,0 +1,34 @@
+{% extends "retro/baseNavigation.html" %}
+
+{% block pageTitle%}
+  {% if retro_details %}
+    Add New Item For "{{retro_details.title}}"
+  {% endif %}
+{% endblock %}
+
+
+{% block pageDiscription %}
+
+{% endblock %}
+
+{% block content%}
+<form class="" action="{% url 'retro:addNewRetroItem' %}" method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-3">
+      <label for="title">Title</label>
+      <input type="text" name="title" placeholder="Enter Title" class="form-control">
+      {% if retro_details %}
+      <input type="hidden" name="retroId" value="{{retro_details.id}}">
+      {% endif %}
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-1">
+      <input type="submit" value="submit" class="btn btn-info">
+    </div>
+  </div>
+</form>
+{% endblock %}
+{ % endblock % }

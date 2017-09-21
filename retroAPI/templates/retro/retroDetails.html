@@ -1,0 +1,52 @@
+{% extends 'retro/baseNavigation.html' %}
+
+{% block pageTitle %}
+  {% if retro_details %}
+    {{retro_details.title}}
+  {% endif %}
+{% endblock %}
+
+{% block pageDiscription %}
+
+{% endblock %}
+
+{% block content %}
+  
+  <div class="row">
+    <div class="col-md-12">
+      {% if retro_items %}
+      <table class="table table-striped">
+        <thead>
+
+        </thead>
+        <tbody>
+          {% for item in retro_items %}
+          <tr>
+            <td>{{item.title}}</td>
+            <td align="right">
+              <form class="" action="{% url 'retro:deleteRetroItem' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="remove" class="btn btn-danger">
+                <input type="hidden" name="retroItemId" value="{{item.id}}">
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="alert alert-warning">
+        <p>Please add a retro item</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      {% if retro_details %}
+      <a href="{% url 'retro:newRetroItem' retro_details.id %}" class="btn btn-success"><span class="fa fa-plus"></span></a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+{ % endblock % }

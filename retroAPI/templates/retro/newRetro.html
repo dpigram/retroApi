@@ -1,4 +1,7 @@
 {% extends "retro/baseNavigation.html" %}
+{% block pageTitle%}
+  New Retro
+{% endblock %}
 
 {% block content %}
   <form class="" action="{% url 'retro:addRetro' %}" method="post">
