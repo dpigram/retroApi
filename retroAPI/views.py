@@ -12,8 +12,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #retor api imports
-from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer, RetroItemSerializer
-from models import Team, Retro, RetroItem
+from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer, RetroItemSerializer, CategorySerializer
+from models import Team, Retro, RetroItem, Category
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 class RetroItemsViewSet(viewsets.ModelViewSet):
     queryset = RetroItem.objects.all()
@@ -32,6 +36,21 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 # website views
+class EditRetroItemView(generic.ListView):
+    template_name = 'retro/editRetroItem.html'
+    context_object_name = 'all_teams_list'
+
+    def get_queryset(self):
+        """ Retrun all Teams """
+        return Team.objects.filter(owner=self.request.session['userid'])
+
+    def get_context_data(self, **kwargs):
+        context = super(EditRetroItemView, self).get_context_data(**kwargs)
+        if bool(self.kwargs):
+            context['item_details'] = RetroItem.objects.get(pk=self.kwargs['pk'])
+            context['all_categories'] = Category.objects.all().order_by('-name')
+        return context
+
 
 class ManageTeamView(generic.ListView):
     template_name = 'retro/manageTeam.html'
@@ -116,7 +135,7 @@ class NewTeamView(generic.ListView):
     def get_queryset(self):
         """ Return all teams """
         return Team.objects.filter(owner=self.request.session['userid'])
-    
+
 class DashboardDetilaView(generic.ListView):
     template_name = 'retro/dashboard.html'
     context_object_name = 'all_teams_list'
@@ -138,6 +157,18 @@ class RetroDetailView(generic.ListView):
             context['retro_details'] = Retro.objects.get(pk=self.kwargs['pk'])
             context['retro_items'] = RetroItem.objects.filter(retro=self.kwargs['pk'])
         return context
+
+def getData():
+    if request.is_ajax():
+        return HttpResponse('OK')
+
+def editRetroItem(request):
+    item = RetroItem.objects.get(pk=request.POST['itemId'])
+    item.title = request.POST['title']
+    item.category = Category.objects.get(pk=request.POST['category'])
+    item.save()
+
+    return HttpResponseRedirect(request.POST.get('next', '/'))
 
 def deleteRetroItem(request):
     RetroItem.objects.get(pk=request.POST['retroItemId']).delete()

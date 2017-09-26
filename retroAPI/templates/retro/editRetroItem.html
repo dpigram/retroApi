@@ -1,0 +1,44 @@
+{% extends 'retro/baseNavigation.html' %}
+
+{% block browserTabTitle %}
+  Edit Retro Item
+{% endblock %}
+
+{% block pageTitle %}
+  Edit Retro Item
+{% endblock %}
+
+{% block content %}
+  <form class="" action="{% url 'retro:editRetroItem' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <input type="hidden" name="itemId" value="{{item_details.id}}">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="Enter Title" class="form-control" value="{{item_details.title}}">
+      </div>
+      <div class="col-md-2">
+        <label for="category">Category</label>
+        <select class="form-control" name="category">
+          {% if all_categories %}
+            {% for category in all_categories %}
+              {% if category.id == item_details.category.id %}
+                <<option value="{{category.id}}" selected>{{category.name}}</option>
+              {% else %}
+                <option value="{{category.id}}">{{category.name}}</option>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-1">
+        <input type="submit" value="save" class="btn btn-info"/>
+      </div>
+    </div>
+  </form>
+{% endblock%}
+{ % endblock % }

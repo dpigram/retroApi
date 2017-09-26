@@ -18,5 +18,12 @@ class Retro(models.Model):
 class RetroItem(models.Model):
     title = models.CharField(max_length=100)
     retro = models.ForeignKey(Retro, on_delete=models.CASCADE, null=True)
-    def __str__(arg):
+    category = models.ForeignKey('Category', null=True)
+    def __str__(self):
         return self.title
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=255, null=True)
+    def __str__(self):
+        return self.name

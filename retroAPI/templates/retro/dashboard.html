@@ -1,5 +1,27 @@
 {% extends "retro/baseNavigation.html" %}
 
+{% block chatScripts %}
+{% load static %}
+<script type="text/javascript" src="{% static 'retro/Chart.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'retro/chartsData.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajax({
+      method: 'GET',
+      url: "{% url 'retro:getData'%}",
+      success: function(data){
+        console.log("got it");
+        console.log(data);
+      },
+      error: function(data){
+        console.log("there was an error");
+        console.log(data);
+      }
+    })
+  });
+</script>
+{% endblock %}
+
 {% block pageTitle%}
   Dashboard
 {% endblock %}

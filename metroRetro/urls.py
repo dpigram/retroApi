@@ -23,6 +23,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'teams', views.TeamViewSet)
 router.register(r'retros', views.RetroViewSet)
 router.register(r'retroItems', views.RetroItemsViewSet)
+router.register(r'categories', views.CategoryViewSet)
 
 
 urlpatterns = [

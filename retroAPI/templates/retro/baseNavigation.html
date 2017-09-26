@@ -6,8 +6,8 @@
     <script src="{% static 'retro/jquery-ui.min.js'%}"></script>
 
     <!-- Charts.jsn -->
-    <script type="text/javascript" src="{% static 'retro/Chart.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'retro/chartsData.js' %}"></script>
+    {% block chatScripts %}{% endblock%}
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static 'retro/bootstrap.min.css' %}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'retro/font-awesome-4.7.0/css/font-awesome.min.css' %}">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'retro/bootstrap-theme.min.css' %}" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{% static 'retro/boostrap.min.js' %}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{% static 'retro/bootstrap.min.js' %}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="{% static 'retro/master.css' %}"> -->
 
     <style media="screen">
@@ -56,7 +56,7 @@
       background-color: #428bca;
       }
     </style>
-    <title>Testing</title>
+    <title>Metro - {% block browserTabTitle %} {% endblock %}</title>
   </head>
   <body>
     <div class="container-fluid">
@@ -64,7 +64,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <a href="{% url 'retro:dashboard' %}">Metro Retro</a>
           <br><br>
-          
+
           {% if all_teams_list %}
             <h3>Teams</h3><hr>
             {% for team in all_teams_list %}

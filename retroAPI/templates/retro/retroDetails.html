@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-  
+
   <div class="row">
     <div class="col-md-12">
       {% if retro_items %}
@@ -22,14 +22,9 @@
         <tbody>
           {% for item in retro_items %}
           <tr>
+            <td align><a href="{% url 'retro:editRetroItem' item.id %}" class="btn btn-link"><span class="fa fa-edit"></span></a>&nbsp;&nbsp;{{item.category}}</td>
             <td>{{item.title}}</td>
-            <td align="right">
-              <form class="" action="{% url 'retro:deleteRetroItem' %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="remove" class="btn btn-danger">
-                <input type="hidden" name="retroItemId" value="{{item.id}}">
-              </form>
-            </td>
+
           </tr>
           {% endfor %}
         </tbody>
