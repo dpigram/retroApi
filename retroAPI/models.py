@@ -6,6 +6,7 @@ class Team(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=255, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    members = models.ManyToManyField(User, related_name='team_members')
     def __str__(self):
         return self.name
 

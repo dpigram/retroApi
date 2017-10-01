@@ -58,7 +58,9 @@ class ManageTeamView(generic.ListView):
 
     def get_queryset(self):
         """ Retrun all Teams """
-        return Team.objects.filter(owner=self.request.session['userid'])
+        teams = Team.objects.filter(owner=self.request.session['userid'])
+        print(teams)
+        return teams
 
     def get_context_data(self, **kwargs):
         context = super(ManageTeamView, self).get_context_data(**kwargs)
@@ -246,4 +248,11 @@ def getListOfTeams(request):
     teams = Team.objects.filter(owner=request.POST['userId'])
     serializer = TeamSerializer(teams, many=True)
 
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def getListOfRetros(request):
+    print(request.POST)
+    retros = Retro.objects.filter(team=request.POST['teamId'])
+    serializer = RetroSerializer(retros, many=True)
     return Response(serializer.data)

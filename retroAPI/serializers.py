@@ -5,22 +5,23 @@ from retroAPI.models import Team, Retro, RetroItem, Category
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'email', 'groups')
+        fields = ('id', 'username', 'email', 'groups')
 
 class TeamSerializer(serializers.ModelSerializer):
+    members = UserSerializer(many=True)
     class Meta:
         model = Team
-        fields = ('id', 'name', 'owner', 'description')
+        fields = ('id', 'name', 'owner', 'description', 'members')
 
 class RetroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Retro
-        fields = ('title', 'team', 'id', 'url')
+        fields = ('title', 'team', 'id')
 
 class RetroItemSerializer(serializers.ModelSerializer):
     class Meta:
         model= RetroItem
-        fields = ('title', 'retro', 'category', 'url')
+        fields = ('title', 'retro', 'category')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
