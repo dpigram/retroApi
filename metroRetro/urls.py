@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^user/auth', views.loginService),
+    url(r'^user/teams/', views.getListOfTeams),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
 
@@ -240,3 +240,10 @@ def loginService(request):
     else:
         # the authentication system was unable to verify the username and password
         return JsonResponse({'status': 'failure', 'message': 'The username and password were incorrect'})
+
+@api_view(['POST'])
+def getListOfTeams(request):
+    teams = Team.objects.filter(owner=request.POST['userId'])
+    serializer = TeamSerializer(teams, many=True)
+
+    return Response(serializer.data)

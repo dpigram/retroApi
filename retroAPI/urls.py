@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^edit/retroItem/(?P<pk>[0-9]+)/$', views.EditRetroItemView.as_view(), name='editRetroItem'),
     url(r'^save/retroItem/$', views.editRetroItem, name='editRetroItem'),
     url(r'^getData/$', views.getData, name='getData')
+    
 ]

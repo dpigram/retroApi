@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ('name', 'url', 'owner', 'description')
+        fields = ('id', 'name', 'owner', 'description')
 
 class RetroSerializer(serializers.ModelSerializer):
     class Meta:
