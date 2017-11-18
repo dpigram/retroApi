@@ -256,3 +256,10 @@ def getListOfRetros(request):
     retros = Retro.objects.filter(team=request.POST['teamId'])
     serializer = RetroSerializer(retros, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def createNewRetro(request):
+    team = Team.objects.get(pk=request.POST['teamId'])
+    newRetro = Retro(title=request.POST['title'], team=team)
+    newRetro.save()
+    return JsonResponse({'status': 'success'})
