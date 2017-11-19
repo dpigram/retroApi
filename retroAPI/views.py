@@ -1,5 +1,5 @@
 # django imports
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
@@ -169,8 +169,7 @@ def editRetroItem(request):
     item.title = request.POST['title']
     item.category = Category.objects.get(pk=request.POST['category'])
     item.save()
-
-    return HttpResponseRedirect(request.POST.get('next', '/'))
+    return HttpResponseRedirect(reverse('retro:retroDetails', args=(item.retro.id,)))
 
 def deleteRetroItem(request):
     RetroItem.objects.get(pk=request.POST['retroItemId']).delete()
@@ -180,17 +179,17 @@ def addNewRetroItem(request):
     retro = Retro.objects.get(pk=request.POST['retroId'])
     item = RetroItem(title=request.POST['title'], retro=retro)
     item.save()
-    return HttpResponseRedirect(reverse('retro:dashboard'))
+    return HttpResponseRedirect(reverse('retro:retroDetails', args=(retro.id,)))
 
 def addNewRetro(request):
     team = Team.objects.get(pk=request.POST['teamId'])
     newRetro = Retro(title=request.POST['title'], team=team)
     newRetro.save()
-    return HttpResponseRedirect(reverse('retro:dashboard'))
+    return HttpResponseRedirect(reverse('retro:teamDetails', args=(team.id,)))
 
 def deleteRetro(request):
     Retro.objects.get(pk=request.POST['retroId']).delete()
-    return HttpResponseRedirect(reverse('retro:dashboard'))
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 def deleteTeam(request):
     Team.objects.get(pk=request.POST['teamId']).delete()
@@ -263,3 +262,15 @@ def createNewRetro(request):
     newRetro = Retro(title=request.POST['title'], team=team)
     newRetro.save()
     return JsonResponse({'status': 'success'})
+
+@api_view(['POST'])
+def wsDeleteRetro(request):
+    Retro.objects.get(pk=request.POST['retroId']).delete()
+    return JsonResponse({'status': 'success'})
+
+@api_view(['POST'])
+def wsAddNewTeam(request):
+    user = User.objects.get(pk=request.session['userid'])
+    newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user)
+    newTeam.save()
+    return JsonResponse({'status':'success'})

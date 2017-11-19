@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^user/teams/', views.getListOfTeams),
     url(r'^team/retros/', views.getListOfRetros),
     url(r'^create/retro/', views.createNewRetro),
+    url(r'^new/team/', views.wsAddNewTeam),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
