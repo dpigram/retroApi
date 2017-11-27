@@ -80,7 +80,8 @@ class NewRetroItemView(generic.ListView):
         context = super(NewRetroItemView, self).get_context_data(**kwargs)
         if bool(self.kwargs):
             context['retro_details'] = Retro.objects.get(pk=self.kwargs['pk'])
-            return context
+            context['all_categories'] = Category.objects.all().order_by('-name')
+        return context
 
 # teams
 class TeamView(generic.ListView):
@@ -178,6 +179,7 @@ def deleteRetroItem(request):
 def addNewRetroItem(request):
     retro = Retro.objects.get(pk=request.POST['retroId'])
     item = RetroItem(title=request.POST['title'], retro=retro)
+    item.category = Category.objects.get(pk=request.POST['category'])
     item.save()
     return HttpResponseRedirect(reverse('retro:retroDetails', args=(retro.id,)))
 
