@@ -5,60 +5,68 @@
     <meta charset="utf-8">
     <title>Retro Login</title>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'retro/master.css' %}">
-    <style media="screen">
-      form{
-        margin-top: 50px;
+    <script type="text/javascript">
+    $(document).ready(function(){
+      console.log("working");
+      $(".login").delay(250).fadeIn();
+      $(".signup").delay(1000).fadeIn()
+      $(".content").delay(250).fadeIn();
+    });
+  </script>
+    <style type="text/css">
+      .container, .container-fluid{
+        margin-top: 15px;
       }
-      .freeText{
-        color: black;
+      .card{
+        margin-bottom: 15px;
       }
 
-      body, html{
-          height: 100%,auto;
-          margin: 0;
+      body{
+        background: url("{% static 'retro/images/New-York-City.jpg'%}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+
+      .login, .signup{
+        background-color: rgba(255, 0, 0, 0);
+      }
+      .login{
+        border-color: rgba(144,144,144,0.1);
+        display: none;
+      }
+      .signup, .content{
+        border: none;
+        display: none;
+      }
+      .content{
+        background-color: rgba(255, 0, 0, 0);
+        
+        color: white;
       }
 
       .bg{
-        background-image: url("{% static 'retro/images/collabBackground.jpg'%}");
-        min-height: 100%;
-        min-width: 1024;
-        width: 100%;
-        height: auto;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-
-      .gradiant{
-        min-height: 100%;
-        min-width: 1024;
-        width: 100%;
-        height: auto;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-color: rgba(0, 0, 255, 0.1);
+        position: absolute;
+        width:100%;
+        height:100%;
+        background-size:cover;
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -ms-filter: blur(4px);
+        -o-filter: blur(4px);
+        filter: blur(4px);
+        background-color: rgba(144,144,144,0.5);
+        z-index: -1;
       }
     </style>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       $(document).ready(function(){
         $(".loginForm").delay(300).fadeIn();
 
@@ -67,14 +75,53 @@
           $("#myModal").modal("show");
         });
       });
-    </script>
+    </script> -->
   </head>
   <body>
-
-    <div class="bg"></div>
-    <div class="gradiant"><div>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-7 col-xs-10">
+         
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-5 col-xs-2">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card login">
+              <div class="bg"></div>
+                <div class="card-body">
+                    <h4 class="card-title">Project Title</h4>
+                    <form action="{% url 'retro:login' %}" method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Enter Username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" name="submitBtn" value="Log In" class="btn btn-info" id="loginBtn">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="../ForgotPassword/index.html"class="freeText">Forgot Password?</a>
+                  </div>
+                </form>
+                </div>
+              </div>        
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-10 col-xs-1">
+            <div class="card signup">
+              <div class="card-body">
+                <button class="btn btn-info btn-md btn-block">Sign Up</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        </div>
+      </div>
+      
+      <!-- <div class="row">
         <div class="col-md-4 col-md-offset-4">
           <div class="loginForm top-buffer">
             <div class="row">
@@ -107,10 +154,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -123,6 +170,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </body>
 </html>
