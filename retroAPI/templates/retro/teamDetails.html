@@ -23,14 +23,15 @@
 <div class="row">
   {% if team_retros%}
     {% for retro in team_retros%}
-      <div class="col-md-2">
-        <div class="card" style="margin-bottom: 15px">
+      <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="card retro-card" style="margin-bottom: 15px; height: 20em; width: 100%">
+          <div class="bg"></div>
           <!-- <img class="card-img-top" src="" alt="Card image cap"> -->
           <div class="card-body">
             <h4 class="card-title">
               {{retro.title}}
             </h4>
-            <p class="card-text">Simple description</p>
+            <p class="card-text" style="height: 200px;">Simple description</p>
             <a href="{% url 'retro:retroDetails' retro.id %}">View Details >></a>
           </div>
         </div>
