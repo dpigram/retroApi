@@ -9,13 +9,13 @@
     {% block chatScripts %}{% endblock%}
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="{% static 'retro/bootstrap.min.css' %}" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'retro/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'retro/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <!-- Optional theme -->
     <link rel="stylesheet" href="{% static 'retro/bootstrap-theme.min.css' %}" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{% static 'retro/bootstrap.min.js' %}" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{% static 'retro/bootstrap.min.js' %}"></script>
     <!-- <link rel="stylesheet" href="{% static 'retro/master.css' %}"> -->
 
     <style media="screen">
@@ -55,6 +55,10 @@
       color: #fff;
       background-color: #428bca;
       }
+
+      .page-headings{
+        border: none;
+      }
     </style>
     <title>Metro - {% block browserTabTitle %} {% endblock %}</title>
   </head>
@@ -68,7 +72,7 @@
           {% if all_teams_list %}
             <h3>Teams</h3><hr>
             {% for team in all_teams_list %}
-          </a><a href="{% url 'retro:teamDetails' team.id %}">{{ team.name }}</a>&nbsp;&nbsp;
+              <a href="{% url 'retro:teamDetails' team.id %}">{{ team.name }}</a>&nbsp;&nbsp;
               <a href="{% url 'retro:ManageTeam' team.id %}"><span class="fa fa-gear"></span></li>
               <hr>
             {% endfor %}
@@ -78,16 +82,16 @@
           </a>&nbsp;&nbsp;
           <a href="{% url 'retro:logout' %}" class="btn btn-info">Log Out</a>
         </div>
-        <div class="col-md-10 col-sm-7 col-sm-offset-3 col-md-offset-2">
+        <div class="col-md-10 col-sm-7 offset-sm-3 offset-md-2">
           <div class="row">
             <div class="col-md-12">
-              <div class="card">
+              <div class="card page-headings">
                 <div class="card-body">
                   <h4 class="card-title">{% block pageTitle %} {% endblock %}</h4>
                   <p class="card-subtitle mb-2 text-muted">{% block pageDiscription %} {% endblock %}</p>
                 </div>
               </div>
-              <hr>
+              
             </div>
           </div>
           {% block content %}{% endblock %}
