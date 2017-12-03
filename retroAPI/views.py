@@ -276,3 +276,13 @@ def wsAddNewTeam(request):
     newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user)
     newTeam.save()
     return JsonResponse({'status':'success'})
+
+@api_view(['POST'])
+def wsCreateNewRetroItem(request):
+    retro = Retro.objects.get(pk=request.POST['retroId'])
+    item = RetroItem(title=request.POST['title'], retro=retro)
+    item.category = Category.objects.get(pk=request.POST['category'])
+    item.save()
+    return JsonResponse({'status':'success'})
+
+
