@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^create/retro/', views.createNewRetro),
     url(r'^new/team/', views.wsAddNewTeam),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^get/all/categories/', views.wsGetAllCategories)
 ]

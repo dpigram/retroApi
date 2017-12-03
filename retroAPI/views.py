@@ -285,4 +285,10 @@ def wsCreateNewRetroItem(request):
     item.save()
     return JsonResponse({'status':'success'})
 
+@api_view(['GET'])
+def wsGetAllCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
 
