@@ -97,7 +97,7 @@ class TeamView(generic.ListView):
         context = super(TeamView, self).get_context_data(**kwargs)
         if bool(self.kwargs):
             context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
-            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk'])
+            context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk']).order_by('-created_date')
         print(self.kwargs)
         return context;
 

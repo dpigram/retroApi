@@ -1,77 +1,31 @@
 {% extends 'retro/baseNavigation.html' %}
-{% block pageTitle %}
-  {% if team_details %}
-    {{team_details.name}}
-  {% else %}
-      No Team Name Provided
-  {% endif %}
-{% endblock %}
-
-
-{% block pageDiscription %}
-  {% if team_details %}
-    {{team_details.description}}
-  {% else %}
-    No Description Provided
-  {% endif %}
-{% endblock %}
 
 {% block content %}
 {% if team_details %}
-
-
 <div class="row">
   {% if team_retros%}
     {% for retro in team_retros%}
       <div class="col-md-3 col-sm-12 col-xs-12">
-        <div class="card retro-card" style="margin-bottom: 15px; height: 20em; width: 100%">
-          <div class="bg"></div>
-          <!-- <img class="card-img-top" src="" alt="Card image cap"> -->
-          <div class="card-body">
-            <h4 class="card-title">
-              {{retro.title}}
-            </h4>
-            <p class="card-text" style="height: 200px;">Simple description</p>
-            <a href="{% url 'retro:retroDetails' retro.id %}">View Details >></a>
+          <div class="card retro-card" style="margin 15px;">
+            <div class="bg"></div>
+            <div class="card-header">
+
+              <input type="checkbox" name=""> Current
+              <div style="float: right"><span class="fa fa-times"></span></div>
+            </div>
+            <div class="card-body">
+              <a href="{% url 'retro:retroDetails' retro.id %}">
+                <h4 class="card-title">
+                  {{ retro.title|truncatechars:18 }}
+                </h4>
+                <h6 class="card-subtitle text-muted"><i>{{retro.created_date}}</i></h6>
+                <!-- <p class="card-text" style="height: 200px;">Simple description</p> -->
+              </a>
+            </div>
           </div>
-        </div>
       </div>
     {% endfor %}
   {% endif %}
-  <!-- <div class="col-md-12">
-    {% if team_retros %}
-    <h3>Retros</h3>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Ttitle</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for retro in team_retros %}
-        <tr>
-          <td scope="row"><a href="{% url 'retro:retroDetails' retro.id %}">{{retro.title}}</a></td>
-          <td align="right">
-            <form class="" action="{% url 'retro:deleteRetro' %}" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="retroId" value="{{retro.id}}">
-              <input type="submit" value="Delete" class="btn btn-danger">
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <br>
-    <div class="alert alert-warning">
-
-        <center>No Retros Available</center>
-    </div>
-    {% endif %}
-
-  </div> -->
 </div>
 <div class="row">
   <div class="col-md-12">
