@@ -11,13 +11,33 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'retro/master.css' %}">
     <script type="text/javascript">
-    $(document).ready(function(){
-      console.log("working");
-      $(".login").delay(250).fadeIn();
-      $(".signup").delay(1000).fadeIn()
-      $(".content").delay(250).fadeIn();
-    });
-  </script>
+      $(document).ready(function(){
+        $(".login").delay(250).fadeIn();
+        $(".signup").delay(1000).fadeIn()
+        $(".content").delay(250).fadeIn();
+
+
+        $("#signup").submit(function(event){
+          event.preventDefault();
+          var signup_dict = {};
+          // signup_dict["company_name"] = $("#company_name").val();
+          // signup_dict["email"] = $("#email").val();
+          // signup_dict["username"] = $("#new_username").val();
+          // signup_dict["password"] = $("#new_user_password").val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/register/",
+            data: $("#signup").serialize(),
+            success: function(data){
+              console.log(data);
+            }
+          });
+          console.log($("#signup").serialize())
+        })
+
+      });
+    </script>
     <style type="text/css">
       .container, .container-fluid{
         margin-top: 15px;
@@ -112,11 +132,76 @@
           <div class="col-md-12 col-lg-12 col-sm-10 col-xs-1">
             <div class="card signup" style="width: 20em; float: right;">
               <div class="card-body">
-                <button class="btn btn-info btn-md btn-block">Sign Up</button>
+                <button data-target="#exampleModal" data-toggle="modal" type="button" class="btn btn-info btn-md btn-block">Sign Up</button>
               </div>
             </div>
           </div>
         </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign Up!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" id="signup">
+              {% csrf_token %}
+              <div class="row form-group">
+                <div class="col-md-6">
+                  <label for="company_name">Company Name</label>
+                  <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Enter Company Name">
+                </div>
+                <div class="col-md-6">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email Address">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" placeholder="Enter First Name" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" placeholder="Enter Last Name" class="form-control">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <label for="new_username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter Username">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="new_user_password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="new_user_confirm_password">Confirm Password</label>
+                    <input type="password" name="new_user_confirm_password" class="form-control" placeholder="Confirm Password">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <input type="submit" name="Submit" class="btn btn-primary">
+                
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

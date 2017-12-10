@@ -15,6 +15,7 @@ class Retro(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(auto_now_add=True, null=True)
     updated_date = models.DateTimeField(auto_now=True, null=True)
+    current = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -30,3 +31,12 @@ class Category(models.Model):
     description = models.TextField(max_length=255, null=True)
     def __str__(self):
         return self.name
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.name
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    organization = models.ForeignKey('Organization', null=True)

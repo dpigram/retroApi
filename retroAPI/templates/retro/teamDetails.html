@@ -9,8 +9,11 @@
           <div class="card retro-card" style="margin 15px;">
             <div class="bg"></div>
             <div class="card-header">
-
-              <input type="checkbox" name=""> Current
+              {% if retro.current == True%}
+                <input type="checkbox" checked="checked" name=""> Current
+              {% else %}
+                <input type="checkbox" name=""> Current
+              {% endif %}
               <div style="float: right"><span class="fa fa-times"></span></div>
             </div>
             <div class="card-body">

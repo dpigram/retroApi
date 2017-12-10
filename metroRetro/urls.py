@@ -24,6 +24,8 @@ router.register(r'teams', views.TeamViewSet)
 router.register(r'retros', views.RetroViewSet)
 router.register(r'retroItems', views.RetroItemsViewSet)
 router.register(r'categories', views.CategoryViewSet)
+router.register(r'organizations', views.OrganizationViewSet)
+router.register(r'userProfiles', views.UserProfilesViewSet)
 
 
 urlpatterns = [
@@ -37,5 +39,6 @@ urlpatterns = [
     url(r'^create/retro/', views.createNewRetro),
     url(r'^new/team/', views.wsAddNewTeam),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^get/all/categories/', views.wsGetAllCategories)
+    url(r'^get/all/categories/', views.wsGetAllCategories),
+    url(r'^register/', views.wsRegister)
 ]

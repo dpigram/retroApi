@@ -7,13 +7,21 @@ from django.urls import reverse
 from django.views import generic
 
 # rest framework imports
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #retor api imports
-from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer, RetroItemSerializer, CategorySerializer
-from models import Team, Retro, RetroItem, Category
+from retroAPI.serializers import UserSerializer, TeamSerializer, RetroSerializer, RetroItemSerializer, CategorySerializer, OrganizationSerializer, UserProfileSerializer
+from models import Team, Retro, RetroItem, Category, Organization, UserProfile
+
+class UserProfilesViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -290,5 +298,24 @@ def wsGetAllCategories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def wsRegister(request):
+    serialized = UserSerializer(data=request.data)
+    if serialized.is_valid():
+        serialized.save()
+        org = Organization(name=request.POST['company_name'])
+        org.save()
+        print("user data")
+        print(serialized.data['username'])
+
+        user = User.objects.get(username=serialized.data['username'])
+        print(user)
+        profile = UserProfile(user=user, organization=org)
+        profile.save()
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
+    else:
+        print("bad request")
+        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
