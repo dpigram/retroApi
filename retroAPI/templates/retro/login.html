@@ -16,29 +16,34 @@
         $(".signup").delay(1000).fadeIn()
         $(".content").delay(250).fadeIn();
 
-
         $("#signup").submit(function(event){
           event.preventDefault();
-          var signup_dict = {};
-          // signup_dict["company_name"] = $("#company_name").val();
-          // signup_dict["email"] = $("#email").val();
-          // signup_dict["username"] = $("#new_username").val();
-          // signup_dict["password"] = $("#new_user_password").val();
-          
           $.ajax({
             type: "POST",
             url: "/register/",
             data: $("#signup").serialize(),
             success: function(data){
               console.log(data);
+              $('#exampleModal').modal('toggle');
+            },
+            error: function(error){
+              $("#login_errors").show();
+              var errorList = "";
+              for(var key in error.responseJSON){
+                if(error.responseJSON.hasOwnProperty(key)){
+                  errorList += "<li>" + key + ": " + error.responseJSON[key] + " </li>";
+                }
+              }
+              $("#errorlist").html(errorList);
             }
           });
-          console.log($("#signup").serialize())
-        })
-
+        });
       });
     </script>
     <style type="text/css">
+      #login_errors{
+        display: none;
+      }
       .container, .container-fluid{
         margin-top: 15px;
       }
@@ -65,6 +70,8 @@
         border: none;
         display: none;
       }
+
+
       .content{
         background-color: rgba(255, 0, 0, 0);
         
@@ -151,6 +158,15 @@
             </button>
           </div>
           <div class="modal-body">
+            <div class="row" id="login_errors">
+              <div class="col-md-12">
+                <div class="alert alert-danger">
+                  <ul id="errorlist">
+                    
+                  </ul>
+                </div>                
+              </div>
+            </div>
             <form method="POST" id="signup">
               {% csrf_token %}
               <div class="row form-group">
