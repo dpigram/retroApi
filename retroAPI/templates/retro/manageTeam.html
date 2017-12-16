@@ -10,17 +10,76 @@
 
 
 {% block pageDiscription %}
+  
+{% endblock %}
+
+{% block content%}
   {% if team_details %}
+  <div class="row">
+    <div class="col-md-5">
+      <form method="post" id="team_data">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="name">Team Name</label>
+              <input type="text" name="name" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="description">Team Description</label>
+              <textarea name="description" class="form-control">
+                
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1">
+      <div class="vr" style="border-left: 1px solid #333; height: 100%; text-align: center;"></div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="input-group input-group-lg form-group">
+            <span class="input-group-addon">@</span>
+            <input type="search" name="member_search" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              Members
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Terell</td>
+                  </tr>
+                  <tr>
+                    <td>Derell</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <form action="{% url 'retro:deleteTeam' %}" method="post">
       {% csrf_token %}
       <input type="hidden" name="teamId" value="{{team_details.id}}">
       <input type="submit" class="btn btn-danger" value="Delete Team"/>
     </form>
   {% endif %}
-{% endblock %}
-
-{% block content%}
-  
 {% endblock %}
 
 { % endblock % }

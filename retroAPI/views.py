@@ -209,6 +209,7 @@ def addNewTeam(request):
     user = User.objects.get(pk=request.session['userid'])
     newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user)
     newTeam.save()
+    newTeam.members.add(request.session['userid'])
     return HttpResponseRedirect(reverse('retro:dashboard'))
 
 # login
