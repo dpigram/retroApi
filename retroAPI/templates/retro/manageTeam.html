@@ -13,6 +13,41 @@
   
 {% endblock %}
 
+{% block localScripts %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      
+      $("#user_search").on('input', function(){
+        $.ajax({
+            type: "GET",
+            url: "/search/users/",
+            data: $("#user_search").serialize(),
+            beforeSend: function (){
+              console.log("sending");
+            },
+            success: function(data){
+              var html = "";
+              for(var index in data){
+                html += "<tr><td>"+data[index].first_name +" "+data[index].last_name+"</td><td>"+ data[index].username +"</td><td>"+ data[index].email+"</td><td><button class=\"btn btn-info\" id=\""+data[index].id+"\">invite</button><td></tr>";
+              }
+
+              $("#search_results_list").html(html);
+            },
+            error: function(error){
+             console.log(error);
+            },
+            complete: function(){
+              console.log("completing");
+            }
+          });
+      });
+
+      $("table").on("click","#search_results_list tr td button", function(){
+        console.log($(this).attr("id"));
+      });
+    });
+  </script>
+{% endblock%}
 {% block content%}
   {% if team_details %}
   <div class="row">
@@ -37,35 +72,47 @@
           </div>
         </div>
       </form>
+      <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Members
+              </div>
+              <div class="card-body">
+                <table class="table table-striped">
+                  <tbody>
+                    {% for member in team_details.members.all %}
+                    <tr>
+                      <td>{{member.first_name}} {{member.last_name}}</td>
+                      <td><a href="mailto:{{member.email}}">{{member.email}}</a></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     <div class="col-md-1">
-      <div class="vr" style="border-left: 1px solid #333; height: 100%; text-align: center;"></div>
+      
     </div>
-    
     <div class="col-md-6">
       <div class="row">
         <div class="col-md-12">
           <div class="input-group input-group-lg form-group">
             <span class="input-group-addon">@</span>
-            <input type="search" name="member_search" class="form-control">
+            <input type="search" name="member_search" class="form-control" placeholder="Add Member" id="user_search">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              Members
-            </div>
-            <div class="card-body">
-              <table class="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Terell</td>
-                  </tr>
-                  <tr>
-                    <td>Derell</td>
-                  </tr>
+          <div class="input-group input-group-lg form-group">
+            <div id="search_results">
+              <table class="table table table-striped" id="search_results_table">
+                <tbody id="search_results_list">
+                  
                 </tbody>
               </table>
             </div>

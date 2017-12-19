@@ -319,4 +319,12 @@ def wsRegister(request):
         print("bad request")
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def wsUserSearch(request):
+    print(request.GET)
+    users = User.objects.filter(first_name__icontains=request.GET['member_search'])
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+
 
