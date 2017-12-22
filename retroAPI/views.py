@@ -1,5 +1,6 @@
 # django imports
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
@@ -326,5 +327,13 @@ def wsUserSearch(request):
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
-
+@api_view(['POST'])
+def wsAddTeamMember(request):
+    print(request.POST)
+    team = Team.objects.get(pk=request.POST["teamId"])
+    team.members.add(request.POST["userId"])
+    user = User.objects.get(pk=request.POST["userId"])
+    send_mail("Team Access", "You have been added to " + team.name, "terell.pigram@gmail.com", [user.email], fail_silently=False)
+    print(user.email)
+    return JsonResponse({'status': 'success'})
 

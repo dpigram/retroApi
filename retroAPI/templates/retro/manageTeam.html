@@ -28,7 +28,7 @@
             success: function(data){
               var html = "";
               for(var index in data){
-                html += "<tr><td>"+data[index].first_name +" "+data[index].last_name+"</td><td>"+ data[index].username +"</td><td>"+ data[index].email+"</td><td><button class=\"btn btn-info\" id=\""+data[index].id+"\">invite</button><td></tr>";
+                html += "<tr><td>"+data[index].first_name +" "+data[index].last_name+"</td><td>"+ data[index].username +"</td><td>"+ data[index].email+"</td><td><button class=\"btn btn-link\" id=\""+data[index].id+"\"><span class=\"fa fa-plus\"></span></button><td></tr>";
               }
 
               $("#search_results_list").html(html);
@@ -42,8 +42,60 @@
           });
       });
 
+      function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      
       $("table").on("click","#search_results_list tr td button", function(){
-        console.log($(this).attr("id"));
+        $.ajax({
+          type: "POST", 
+          url: "/add/teamMember/",
+          data: "userId="+$(this).attr("id")+"&teamId={{team_details.id}}",
+          beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie != '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                  }
+               }
+               return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+              // Only send the token to relative URLs i.e. locally.
+              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+          }, 
+          success: function(data){
+            console.log(data);
+          },
+          error: function(error){
+            console.log(error);
+          },
+          complete: function(){
+            console.log("teamMember call complete");
+          }
+        });
+        console.log("userid: " + $(this).attr("id"));
+        console.log("teamId: {{team_details.id}}");
       });
     });
   </script>
@@ -108,14 +160,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="input-group input-group-lg form-group">
-            <div id="search_results">
-              <table class="table table table-striped" id="search_results_table">
-                <tbody id="search_results_list">
-                  
-                </tbody>
-              </table>
-            </div>
+          <div id="search_results">
+            <table class="table table table-striped" id="search_results_table">
+              <tbody id="search_results_list">
+                
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

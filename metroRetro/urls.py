@@ -41,5 +41,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^get/all/categories/', views.wsGetAllCategories),
     url(r'^register/', views.wsRegister),
-    url(r'^search/users/', views.wsUserSearch)
+    url(r'^search/users/', views.wsUserSearch),
+    url(r'^add/teamMember/', views.wsAddTeamMember)
 ]
