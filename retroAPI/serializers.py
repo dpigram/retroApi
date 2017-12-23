@@ -24,7 +24,7 @@ class TeamSerializer(serializers.ModelSerializer):
     members = UserSerializer(many=True)
     class Meta:
         model = Team
-        fields = ('id', 'name', 'owner', 'description', 'members')
+        fields = ('id', 'name', 'owner', 'description', 'members', 'organization')
 
 class RetroSerializer(serializers.ModelSerializer):
     class Meta:

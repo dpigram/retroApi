@@ -16,48 +16,129 @@
 {% block localScripts %}
   <script type="text/javascript">
     $(document).ready(function(){
-      
-      $("#user_search").on('input', function(){
+      updateMemberList();
+      refreshUserSearch();
+      $("table").on("click","#member_list tr td button", function(){
         $.ajax({
-            type: "GET",
-            url: "/search/users/",
-            data: $("#user_search").serialize(),
-            beforeSend: function (){
-              console.log("sending");
-            },
-            success: function(data){
-              var html = "";
-              for(var index in data){
-                html += "<tr><td>"+data[index].first_name +" "+data[index].last_name+"</td><td>"+ data[index].username +"</td><td>"+ data[index].email+"</td><td><button class=\"btn btn-link\" id=\""+data[index].id+"\"><span class=\"fa fa-plus\"></span></button><td></tr>";
-              }
-
-              $("#search_results_list").html(html);
-            },
-            error: function(error){
-             console.log(error);
-            },
-            complete: function(){
-              console.log("completing");
+          type:"POST",
+          url: "/remove/teamMember/",
+          data: "teamId={{team_details.id}}&userId="+$(this).attr("id"),
+          beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie != '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                  }
+               }
+               return cookieValue;
             }
-          });
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+              // Only send the token to relative URLs i.e. locally.
+              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+          },
+          success: function(){
+            updateMemberList();
+            refreshUserSearch();
+          },
+          error: function(){
+
+          }
+        })
       });
 
-      function getCookie(name) {
-          var cookieValue = null;
-          if (document.cookie && document.cookie != '') {
-              var cookies = document.cookie.split(';');
-              for (var i = 0; i < cookies.length; i++) {
-                  var cookie = jQuery.trim(cookies[i]);
-                  // Does this cookie string begin with the name we want?
-                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
+      function updateMemberList(){
+        $.ajax({
+          type:"POST",
+          url:"/get/team/details/",
+          data:"teamId={{team_details.id}}",
+          beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie != '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                   }
-              }
+               }
+               return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+              // Only send the token to relative URLs i.e. locally.
+              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+          },
+          success: function(data){
+            var html = ""
+            for(var index in data.members){
+              html += "<tr><td>"+data.members[index].username+"</td><td><a href=\"mailto:"+data.members[index].email+"\">"+data.members[index].email+"</a></td><td><button id=\""+data.members[index].id+"\" class=\"btn btn-danger\"><span class=\"fa fa-times\"></span></button></td></tr>";
+            }
+            $("#member_list").html(html);
+          },
+          error: function(error){
+            console.log(error);
           }
-          return cookieValue;
+        });
       }
       
+      function refreshUserSearch(){
+        $.ajax({
+          type: "GET",
+          url: "/search/users/",
+          data: $("#user_search").serialize()+"&teamId={{team_details.id}}",
+          beforeSend: function (){
+            console.log("sending");
+          },
+          success: function(data){
+            var html = "";
+            for(var index in data){
+              html += "<tr><td>"+ data[index].username +"</td><td>"+ data[index].email+"</td><td><button class=\"btn btn-link\" id=\""+data[index].id+"\"><span class=\"fa fa-plus\"></span></button><td></tr>";
+            }
+
+            $("#search_results_list").html(html);
+          },
+          error: function(error){
+           console.log(error);
+          },
+          complete: function(){
+            console.log("completing");
+          }
+        });
+      }
+
+      $("#user_search").on('input', function(){
+        refreshUserSearch();
+      });
+      
+
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+
       $("table").on("click","#search_results_list tr td button", function(){
         $.ajax({
           type: "POST", 
@@ -92,10 +173,10 @@
           },
           complete: function(){
             console.log("teamMember call complete");
+            updateMemberList();
+            refreshUserSearch();
           }
         });
-        console.log("userid: " + $(this).attr("id"));
-        console.log("teamId: {{team_details.id}}");
       });
     });
   </script>
@@ -131,14 +212,9 @@
                 Members
               </div>
               <div class="card-body">
-                <table class="table table-striped">
-                  <tbody>
-                    {% for member in team_details.members.all %}
-                    <tr>
-                      <td>{{member.first_name}} {{member.last_name}}</td>
-                      <td><a href="mailto:{{member.email}}">{{member.email}}</a></td>
-                    </tr>
-                    {% endfor %}
+                <table class="table table-striped table-responsive">
+                  <tbody id="member_list">
+                   
                   </tbody>
                 </table>
               </div>

@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 class Team(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=255, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey(User, null=True)
     members = models.ManyToManyField(User, related_name='team_members')
+    organization = models.ForeignKey('Organization', related_name="team_organization", null=True, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 

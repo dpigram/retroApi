@@ -42,5 +42,7 @@ urlpatterns = [
     url(r'^get/all/categories/', views.wsGetAllCategories),
     url(r'^register/', views.wsRegister),
     url(r'^search/users/', views.wsUserSearch),
-    url(r'^add/teamMember/', views.wsAddTeamMember)
+    url(r'^add/teamMember/', views.wsAddTeamMember),
+    url(r'^remove/teamMember/', views.wsRemoveTeamMember),
+    url(r'^get/team/details/', views.wsTeamDetails)
 ]

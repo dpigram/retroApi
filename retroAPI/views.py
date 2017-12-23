@@ -208,7 +208,8 @@ def deleteTeam(request):
 
 def addNewTeam(request):
     user = User.objects.get(pk=request.session['userid'])
-    newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user)
+    profile = UserProfile.objects.get(user=user);
+    newTeam = Team(name=request.POST['teamName'], description=request.POST['teamDescription'], owner=user, organization=profile.organization)
     newTeam.save()
     newTeam.members.add(request.session['userid'])
     return HttpResponseRedirect(reverse('retro:dashboard'))
@@ -322,8 +323,9 @@ def wsRegister(request):
 
 @api_view(['GET'])
 def wsUserSearch(request):
-    print(request.GET)
-    users = User.objects.filter(first_name__icontains=request.GET['member_search'])
+    team = Team.objects.get(pk=request.GET['teamId'])
+    members = team.members.all()
+    users = User.objects.filter(first_name__icontains=request.GET['member_search']).exclude(id__in=members)
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
@@ -333,7 +335,19 @@ def wsAddTeamMember(request):
     team = Team.objects.get(pk=request.POST["teamId"])
     team.members.add(request.POST["userId"])
     user = User.objects.get(pk=request.POST["userId"])
-    send_mail("Team Access", "You have been added to " + team.name, "terell.pigram@gmail.com", [user.email], fail_silently=False)
-    print(user.email)
+    # send_mail("Team Access", "You have been added to " + team.name, "terell.pigram@gmail.com", [user.email], fail_silently=False)
     return JsonResponse({'status': 'success'})
+
+@api_view(['POST'])
+def wsRemoveTeamMember(request):
+    team = Team.objects.get(pk=request.POST["teamId"])
+    team.members.remove(request.POST["userId"])
+    return JsonResponse({'status':'success'})
+
+@api_view(['POST'])
+def wsTeamDetails(request):
+    team = Team.objects.get(pk=request.POST["teamId"])
+    serializer = TeamSerializer(team)
+    return Response(serializer.data)
+
 
