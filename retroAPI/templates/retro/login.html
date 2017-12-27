@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'retro/master.css' %}">
+    <link rel="stylesheet" href="{% static 'retro/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <script type="text/javascript">
       $(document).ready(function(){
         $(".login").delay(250).fadeIn();
@@ -45,7 +46,7 @@
         display: none;
       }
       .container, .container-fluid{
-        margin-top: 15px;
+        margin-top: 100px;
       }
       .card{
         margin-bottom: 15px;
@@ -92,58 +93,42 @@
         z-index: -1;
       }
     </style>
-
-    <!-- <script type="text/javascript">
-      $(document).ready(function(){
-        $(".loginForm").delay(300).fadeIn();
-
-        $("#loginBtn").click(function(){
-          // show modal
-          $("#myModal").modal("show");
-        });
-      });
-    </script> -->
   </head>
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-9 col-md-9 col-sm-7 col-xs-10">
-         
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-5 col-xs-2">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card login" style="width: 20em; float: right">
-              <div class="bg"></div>
-                <div class="card-body">
-                    <h4 class="card-title">Metro Retro</h4>
-                    <form action="{% url 'retro:login' %}" method="post">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <input type="text" name="username" class="form-control" placeholder="Enter Username">
-                  </div>
-                  <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Enter Password">
-                  </div>
-                  <div class="form-group">
-                    <input type="submit" name="submitBtn" value="Log In" class="btn btn-info" id="loginBtn">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="../ForgotPassword/index.html" class="freeText">Forgot Password?</a>
-                  </div>
-                </form>
+        <div class="col-md-4 offset-md-4">
+          <div class="card login" >
+            <div class="bg"></div>
+            <div class="card-body">
+              <h4 class="card-title">Metro Retro</h4>
+              <form action="{% url 'retro:login' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group input-group">
+                  <span class="input-group-addon" id="basic-addon1"><span class="fa fa-user"></span></span>
+                  <input type="text" name="username" class="form-control" placeholder="Enter Username">
                 </div>
-              </div>        
+                <div class="form-group input-group">
+                  <span class="input-group-addon" id="basic-addon1"><span class="fa fa-lock"></span></span>
+                  <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                </div>
+                <div class="form-group">
+                  <input type="submit" name="submitBtn" value="Log In" class="btn btn-info" id="loginBtn">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="../ForgotPassword/index.html" class="freeText">Forgot Password?</a>
+                </div>
+              </form>
             </div>
-          </div>
-          <div class="row">
-          <div class="col-md-12 col-lg-12 col-sm-10 col-xs-1">
-            <div class="card signup" style="width: 20em; float: right;">
-              <div class="card-body">
-                <button data-target="#exampleModal" data-toggle="modal" type="button" class="btn btn-info btn-md btn-block">Sign Up</button>
-              </div>
-            </div>
-          </div>
+          </div>\
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="card signup">
+            <div class="card-body">
+              <button data-target="#exampleModal" data-toggle="modal" type="button" class="btn btn-info btn-md btn-block">Sign Up</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
