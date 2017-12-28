@@ -17,6 +17,10 @@ class Retro(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=True)
     updated_date = models.DateTimeField(auto_now=True, null=True)
     current = models.BooleanField(default=False)
+
+    def numberOfRetros(self):
+        return self.retroitem_set.count()
+
     def __str__(self):
         return self.title
 

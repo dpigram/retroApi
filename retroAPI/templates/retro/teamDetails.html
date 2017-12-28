@@ -21,9 +21,20 @@
                 <h4 class="card-title">
                   {{ retro.title|truncatechars:18 }}
                 </h4>
-                <h6 class="card-subtitle text-muted"><i>{{retro.created_date}}</i></h6>
+                
                 <!-- <p class="card-text" style="height: 200px;">Simple description</p> -->
               </a>
+              <!-- <button class="btn btn-primary">
+                <span class="fa fa-image"></span>
+                <span class="badge badge-dark">2</span>
+              </button> -->
+              <button class="btn btn-info">
+                <span class="fa fa-list"></span>
+                <span class="badge badge-dark">{{retro.numberOfRetros}}</span>
+              </button>
+            </div>
+            <div class="card-footer">
+              <i class="text-muted">{{retro.created_date}}</i>
             </div>
           </div>
       </div>
@@ -32,7 +43,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-info">
+    <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-info" style="margin-left: 10px;">
       <span class="fa fa-plus"></span>
     </a>
   </div>
