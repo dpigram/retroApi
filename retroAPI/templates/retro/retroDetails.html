@@ -10,6 +10,20 @@
 
 {% endblock %}
 
+{% block chatScripts %}
+  <script type="text/javascript">
+  $(document).ready(function(){
+    function resizeDiv() {
+      vpw = $(window).width();
+      vph = $(window).height();
+      $("#image_column").css({"height": vph + "px"});
+      
+    }
+     resizeDiv();
+  });
+   
+  </script>
+{% endblock%}
 {% block content %}
   <!-- <div class="row" style="border-bottom: 1px solid #f2f2f2; margin">
     <div class="col-sm-3" style="margin-bottom: 10px;"> 
@@ -59,8 +73,65 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-3" id="image_column" style="border-left: 1px solid #dfdfdf; overflow-y: scroll;">
       <div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
+        <div class="col-sm-12">
+          <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
+        </div>
+      </div><div class="row">
         <div class="col-sm-12">
           <img src="{% static 'retro/images/New-York-City.jpg'%}"" alt="..." class="img-thumbnail" style="height: 200px; width: 100%;">
         </div>

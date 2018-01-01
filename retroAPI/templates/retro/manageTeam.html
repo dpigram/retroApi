@@ -28,11 +28,12 @@
           addMemeber($(this).attr("id"));
         });
         $("#globalModal").modal("show");
-        // refreshUserSearch();
       });
+
       $("#add_member").on("click", function(){
         console.log('clicked');
       });
+      
       $("table").on("click","#member_list tr td button", function(){
         $.ajax({
           type:"POST",
@@ -61,7 +62,6 @@
           },
           success: function(){
             updateMemberList();
-            refreshUserSearch();
           },
           error: function(){
 
@@ -133,9 +133,6 @@
         });
       }
 
-
-      
-
       function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
@@ -191,7 +188,6 @@
           }
         });
       }
-      
     });
   </script>
 {% endblock%}
