@@ -193,8 +193,13 @@ def addNewRetroItem(request):
     return HttpResponseRedirect(reverse('retro:retroDetails', args=(retro.id,)))
 
 def addNewRetro(request):
+    # Get all retros where current == True and set to False
+    currentRetros = Retro.objects.filter(current=True, team=request.POST['teamId'])
+    currentRetros.update(current=False);
+
+    # Creat and set the current retro to True
     team = Team.objects.get(pk=request.POST['teamId'])
-    newRetro = Retro(title=request.POST['title'], team=team)
+    newRetro = Retro(title=request.POST['title'], team=team, current=True)
     newRetro.save()
     return HttpResponseRedirect(reverse('retro:teamDetails', args=(team.id,)))
 

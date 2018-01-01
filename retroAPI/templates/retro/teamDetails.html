@@ -9,7 +9,7 @@
           <div class="card retro-card" style="margin 15px;">
             <div class="bg"></div>
             <div class="card-header">
-              {% if retro.current == True%}
+              {% if retro.current == True %}
                 <input type="checkbox" checked="checked" name=""> Current
               {% else %}
                 <input type="checkbox" name=""> Current
@@ -21,13 +21,7 @@
                 <h4 class="card-title">
                   {{ retro.title|truncatechars:18 }}
                 </h4>
-                
-                <!-- <p class="card-text" style="height: 200px;">Simple description</p> -->
               </a>
-              <!-- <button class="btn btn-primary">
-                <span class="fa fa-image"></span>
-                <span class="badge badge-dark">2</span>
-              </button> -->
               <button class="btn btn-info">
                 <span class="fa fa-list"></span>
                 <span class="badge badge-dark">{{retro.numberOfRetros}}</span>
