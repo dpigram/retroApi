@@ -22,7 +22,7 @@
                   {{ retro.title|truncatechars:18 }}
                 </h4>
               </a>
-              <button class="btn btn-info">
+              <button class="btn btn-primary">
                 <span class="fa fa-list"></span>
                 <span class="badge badge-dark">{{retro.numberOfRetros}}</span>
               </button>
@@ -37,7 +37,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-info" style="margin-left: 10px;">
+    <a href="{% url 'retro:NewRetro' team_details.id %}" class="btn btn-primary" style="margin-left: 10px;">
       <span class="fa fa-plus"></span>
     </a>
   </div>

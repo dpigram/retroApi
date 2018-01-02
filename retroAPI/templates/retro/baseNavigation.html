@@ -119,6 +119,7 @@
   </head>
   <body>
     <div class="container-fluid">
+      
       <div class="row contentWrapper">
         <div class="col-sm-3 col-md-2 sidebar">
           <a href="{% url 'retro:dashboard' %}">Metro Retro</a>
@@ -132,10 +133,10 @@
               <hr>
             {% endfor %}
           {% endif %}
-          <a href="{% url 'retro:newTeam' %}" class="btn btn-success">
+          <a href="{% url 'retro:newTeam' %}" class="btn btn-primary" alt="New Team">
             <span class="fa fa-plus"></span>
           </a>&nbsp;&nbsp;
-          <a href="{% url 'retro:logout' %}" class="btn btn-info">Log Out</a>
+          <a href="{% url 'retro:logout' %}" class="btn btn-dark">Log Out</a>
         </div>
         <div class="col-md-10 col-sm-7 offset-sm-3 offset-md-2" style="min-width: 1000px">
           <div class="main-content">
