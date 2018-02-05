@@ -5,8 +5,8 @@
 <div class="row">
   {% if team_retros%}
     {% for retro in team_retros%}
-      <div class="col-md-3 col-sm-12 col-xs-12">
-          <div class="card retro-card" style="margin 15px;">
+      <div class="col-md-3 col-sm-12 col-xs-12" align="center">
+          <div class="card retro-card" style="margin 15px; max-width: 21em;">
             <div class="bg"></div>
             <div class="card-header">
               {% if retro.current == True %}
@@ -22,13 +22,13 @@
                   {{ retro.title|truncatechars:18 }}
                 </h4>
               </a>
+              <i class="text-muted">{{retro.created_date}}</i>
+            </div>
+            <div class="card-footer">
               <button class="btn btn-primary">
                 <span class="fa fa-list"></span>
                 <span class="badge badge-dark">{{retro.numberOfRetros}}</span>
               </button>
-            </div>
-            <div class="card-footer">
-              <i class="text-muted">{{retro.created_date}}</i>
             </div>
           </div>
       </div>

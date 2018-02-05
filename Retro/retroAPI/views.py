@@ -153,6 +153,7 @@ class DashboardDetilaView(generic.ListView):
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
+        print(self.request.session['userid'])
         return Team.objects.filter(owner=self.request.session['userid'])
 
 class RetroDetailView(generic.ListView):
@@ -262,9 +263,10 @@ def loginService(request):
 
 @api_view(['POST'])
 def getListOfTeams(request):
+    
     teams = Team.objects.filter(owner=request.POST['userId'])
     serializer = TeamSerializer(teams, many=True)
-
+    print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['POST'])
