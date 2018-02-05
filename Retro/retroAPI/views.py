@@ -98,16 +98,18 @@ class TeamView(generic.ListView):
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
-        """ Return all teams """
-        print("userId: " + str(self.request.session['userid']));
-        return Team.objects.filter(owner=self.request.session['userid'])
+         # Get the user
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
     def get_context_data(self, **kwargs):
         context = super(TeamView, self).get_context_data(**kwargs)
         if bool(self.kwargs):
             context['team_details'] = Team.objects.get(pk=self.kwargs['pk'])
             context['team_retros'] = Retro.objects.filter(team=self.kwargs['pk']).order_by('-created_date')
-        print(self.kwargs)
         return context;
 
 class BaseView(generic.ListView):
@@ -116,8 +118,11 @@ class BaseView(generic.ListView):
 
     def get_queryset(self):
         """ Return all teams """
-        print("userId: " + str(self.request.session['userid']));
-        return Team.objects.filter(owner=self.request.session['userid'])
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
     def get_context_data(self, **kwargs):
         context = super(BaseView, self).get_context_data(**kwargs)
@@ -131,8 +136,11 @@ class NewRetroView(generic.ListView):
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
-        """ Return all teams """
-        return Team.objects.filter(owner=self.request.session['userid'])
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
     def get_context_data(self, **kwargs):
         context = super(NewRetroView, self).get_context_data(**kwargs)
@@ -145,24 +153,33 @@ class NewTeamView(generic.ListView):
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
-        """ Return all teams """
-        return Team.objects.filter(owner=self.request.session['userid'])
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
 class DashboardDetilaView(generic.ListView):
     template_name = 'retro/dashboard.html'
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
-        print(self.request.session['userid'])
-        return Team.objects.filter(owner=self.request.session['userid'])
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
 class RetroDetailView(generic.ListView):
     template_name = "retro/retroDetails.html"
     context_object_name = 'all_teams_list'
 
     def get_queryset(self):
-        """ Return all teams """
-        return Team.objects.filter(owner=self.request.session['userid'])
+        user  = User.objects.get(id=self.request.session['userid'])
+        # Get the user's profile
+        profile = UserProfile.objects.get(user=user)
+        teams = Team.objects.filter(organization=profile.organization)
+        return teams
 
     def get_context_data(self, **kwargs):
         context = super(RetroDetailView, self).get_context_data(**kwargs)
@@ -264,7 +281,11 @@ def loginService(request):
 @api_view(['POST'])
 def getListOfTeams(request):
     
-    teams = Team.objects.filter(owner=request.POST['userId'])
+    user  = User.objects.get(id=request.POST['userId'])
+    # Get the user's profile
+    profile = UserProfile.objects.get(user=user)
+    print(profile.organization)
+    teams = Team.objects.filter(organization=profile.organization)
     serializer = TeamSerializer(teams, many=True)
     print(serializer.data)
     return Response(serializer.data)
