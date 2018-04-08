@@ -8,6 +8,10 @@ class Team(models.Model):
     owner = models.ForeignKey(User, null=True)
     members = models.ManyToManyField(User, related_name='team_members')
     organization = models.ForeignKey('Organization', related_name="team_organization", null=True, on_delete=models.CASCADE)
+
+    def numberOfRetros(self):
+        return self.retro_set.count()
+        
     def __str__(self):
         return self.name
 
@@ -17,6 +21,7 @@ class Retro(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, null=True)
     updated_date = models.DateTimeField(auto_now=True, null=True)
     current = models.BooleanField(default=False)
+    description = models.TextField(max_length=255, null=True)
 
     def numberOfRetros(self):
         return self.retroitem_set.count()
